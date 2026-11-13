@@ -25,6 +25,7 @@ from agentdojo.agent_pipeline.llms.openai_llm import OpenAILLM, OpenAILLMToolFil
 from agentdojo.agent_pipeline.llms.prompting_llm import PromptingLLM
 from agentdojo.agent_pipeline.pi_detector import TransformersBasedPIDetector
 from agentdojo.agent_pipeline.promptarmor import PromptArmorSanitizer
+from agentdojo.agent_pipeline.melon import MELON
 from agentdojo.agent_pipeline.tool_execution import (
     ToolsExecutionLoop,
     ToolsExecutor,
@@ -47,6 +48,7 @@ DEFENSES = [
     "spotlighting_with_delimiting",
     "repeat_user_prompt",
     "promptarmor",
+    "melon",
 ]
 """Available defenses."""
 
@@ -299,6 +301,18 @@ class AgentPipeline(BasePipelineElement):
                     tools_loop,
                 ]
             )
+            pipeline.name = f"{llm_name}-{config.defense}"
+            return pipeline
+        if config.defense == "melon":
+            tools_loop = ToolsExecutionLoop(
+                [
+                    ToolsExecutor(tool_output_formatter),
+                    MELON(
+                        llm,
+                    ),
+                ]
+            )
+            pipeline = cls([system_message_component, init_query_component, llm, tools_loop])
             pipeline.name = f"{llm_name}-{config.defense}"
             return pipeline
 

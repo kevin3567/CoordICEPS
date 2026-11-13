@@ -701,7 +701,7 @@ def _build_arg_parser() -> argparse.ArgumentParser:
     p.add_argument("--max-workers", default=4, type=int, help="Maximum number of parallel benchmark workers.")
     p.add_argument("--generation-max-concurrent", default=4, type=int, help="Maximum concurrent attacker-model generation requests.")
 
-    p.add_argument("--defense", default=None, choices=[None, "tool_filter", "transformers_pi_detector", "spotlighting_with_delimiting", "repeat_user_prompt", "promptarmor"], help="Defense method.")
+    p.add_argument("--defense", default=None, choices=[None, "tool_filter", "transformers_pi_detector", "spotlighting_with_delimiting", "repeat_user_prompt", "promptarmor", "melon"], help="Defense method.")
 
     p.add_argument("--out-dir", default=Path("res"), help="Output directory (relative to repo root unless absolute).")
     p.add_argument("--agent-logdir", default=Path("runs"), help="Output directory (relative to repo root unless absolute).")
